@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using BuildACoatCheck;
 
 namespace BuildACoatCheck.Tests;
@@ -99,5 +100,22 @@ public class CoatCheckTests
         {
             Assert.AreEqual("Coat " + i, room.Get("Guest " + i), "Not yet: after resizing, every coat must be found again: Guest " + i + " has Coat " + i + ".");
         }
+    }
+
+    [TestMethod]
+    public void ABusyNightStaysFast()
+    {
+        CoatCheck room = new CoatCheck();
+        Stopwatch watch = Stopwatch.StartNew();
+        for (int i = 0; i < 50000; i++)
+        {
+            room.Put("Guest " + i, "Coat " + i);
+        }
+        for (int i = 0; i < 50000; i++)
+        {
+            Assert.AreEqual("Coat " + i, room.Get("Guest " + i), "Not yet: on a busy night every coat must still be found: Guest " + i + " has Coat " + i + ".");
+        }
+        watch.Stop();
+        Assert.IsTrue(watch.Elapsed.TotalSeconds < 2, "Not yet: 50,000 coats in and out took " + watch.Elapsed.TotalSeconds.ToString("0.0") + " seconds. When put and get each work on one hook, it takes well under one.");
     }
 }

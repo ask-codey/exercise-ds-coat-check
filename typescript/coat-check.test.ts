@@ -78,3 +78,16 @@ test("every coat is found after many resizes", () => {
     assert.equal(room.get(`Guest ${i}`), `Coat ${i}`, `Not yet: after resizing, every coat must be found again: Guest ${i} has Coat ${i}.`);
   }
 });
+
+test("a busy night stays fast", () => {
+  const room = new CoatCheck();
+  const started = performance.now();
+  for (let i = 0; i < 50000; i++) {
+    room.put(`Guest ${i}`, `Coat ${i}`);
+  }
+  for (let i = 0; i < 50000; i++) {
+    assert.equal(room.get(`Guest ${i}`), `Coat ${i}`, `Not yet: on a busy night every coat must still be found: Guest ${i} has Coat ${i}.`);
+  }
+  const seconds = (performance.now() - started) / 1000;
+  assert.ok(seconds < 2, `Not yet: 50,000 coats in and out took ${seconds.toFixed(1)} seconds. When put and get each work on one hook, it takes well under one.`);
+});

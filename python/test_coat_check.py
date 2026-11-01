@@ -1,5 +1,7 @@
 # The tests for your coat check. You don't need to change this file.
 # Each message says what was expected, so a failing test tells you what to look at.
+import time
+
 from coat_check import CoatCheck
 
 
@@ -79,3 +81,14 @@ def test_every_coat_is_found_after_many_resizes():
     for i in range(1000):
         assert room.get(f"Guest {i}") == f"Coat {i}", \
             f"Not yet: after resizing, every coat must be found again: Guest {i} has Coat {i}."
+
+
+def test_a_busy_night_stays_fast():
+    room = CoatCheck()
+    started = time.perf_counter()
+    for i in range(50000):
+        room.put(f"Guest {i}", f"Coat {i}")
+    for i in range(50000):
+        assert room.get(f"Guest {i}") == f"Coat {i}",             f"Not yet: on a busy night every coat must still be found: Guest {i} has Coat {i}."
+    seconds = time.perf_counter() - started
+    assert seconds < 2, f"Not yet: 50,000 coats in and out took {seconds:.1f} seconds. When put and get each work on one hook, it takes well under one."
