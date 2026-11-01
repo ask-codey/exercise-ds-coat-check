@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="BuildACoatCheck/BuildACoatCheck.csproj" />
+  <Project Path="BuildACoatCheck.Tests/BuildACoatCheck.Tests.csproj" />
+</Solution>
