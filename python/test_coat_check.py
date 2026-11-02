@@ -89,6 +89,7 @@ def test_a_busy_night_stays_fast():
     for i in range(50000):
         room.put(f"Guest {i}", f"Coat {i}")
     for i in range(50000):
-        assert room.get(f"Guest {i}") == f"Coat {i}",             f"Not yet: on a busy night every coat must still be found: Guest {i} has Coat {i}."
+        assert room.get(f"Guest {i}") == f"Coat {i}", \
+            f"Not yet: on a busy night every coat must still be found: Guest {i} has Coat {i}."
     seconds = time.perf_counter() - started
     assert seconds < 2, f"Not yet: 50,000 coats in and out took {seconds:.1f} seconds. When put and get each work on one hook, it takes well under one."
